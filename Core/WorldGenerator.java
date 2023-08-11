@@ -3,7 +3,6 @@ package byow.Core;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import java.io.*;
-import java.security.AccessControlException;  // deprecated, but required for autograder usage.
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -42,25 +41,18 @@ public class WorldGenerator implements Serializable {
     /** Constructor for this class, which sets multiple global constants & fills worldFrame with
      * NOTHING tiles. */
     public WorldGenerator(TETile[][] frame, int width, int height, long s) {
-        try {
-            worldFrame = frame;
-            WIDTH = width;
-            HEIGHT = height;
-            rooms = new RoomTracker();
-            seed = Long.toString(s);
-            rand = new Random(s);
-            keyPress = new ArrayDeque<String>();
-            keyPress.addLast(".");
+        worldFrame = frame;
+        WIDTH = width;
+        HEIGHT = height;
+        rooms = new RoomTracker();
+        seed = Long.toString(s);
+        rand = new Random(s);
+        keyPress = new ArrayDeque<String>();
+        keyPress.addLast(".");
 
-            //StdDraw.clear(new Color(0, 0, 0));
-            fillWithNothingTiles();
-            drawWorld();
-
-        // Autograder breaks unless this deprecated exception is caught.
-        } catch (AccessControlException e) {
-            fillWithNothingTiles();
-            drawWorld();
-        }
+        //StdDraw.clear(new Color(0, 0, 0));
+        fillWithNothingTiles();
+        drawWorld();
     }
 
 
