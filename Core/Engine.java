@@ -198,10 +198,13 @@ public class Engine {
 
         String tileDesc = generator.getTileDescription(mouseX, mouseY);
 
+
+        // draws the HUD text
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.textLeft(1, textHeight, "Tile: " + tileDesc);
         StdDraw.text(WIDTH / 2, textHeight, username + "'s Adventure");
-        StdDraw.textRight(WIDTH - 2, textHeight, "Catch-16");
+        StdDraw.textRight(WIDTH - 2, textHeight, "Orbs Collected: "
+            + generator.getOrbsCollected());
         StdDraw.line(ORIGIN, lineHeight, WIDTH, lineHeight);
     }
 

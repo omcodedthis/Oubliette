@@ -28,6 +28,7 @@ public class WorldGenerator implements Serializable {
     private String seed;
     private Position userLoc;
     private Deque<String> keyPress;
+    private int orbsCollected;
 
     /** World Assets constants. */
     public static final int ORIGIN = 0;  // bottom left
@@ -36,6 +37,7 @@ public class WorldGenerator implements Serializable {
     public static final int LINKBOUND = 1;
     public static final int HALLWAYWIDTHBOUND = 3;
     public static final int OFFSET = 1;
+    public static final int TOTALORBS = 16;
 
 
     /** Constructor for this class, which sets multiple global constants & fills worldFrame with
@@ -49,6 +51,7 @@ public class WorldGenerator implements Serializable {
         rand = new Random(s);
         keyPress = new ArrayDeque<String>();
         keyPress.addLast(".");
+        orbsCollected = 0;
 
         //StdDraw.clear(new Color(0, 0, 0));
         fillWithNothingTiles();
@@ -75,6 +78,7 @@ public class WorldGenerator implements Serializable {
 
     /** Places the user on a random FLOOR tile & returns worldFrame, updating userLoc. */
     public TETile[][] getWorld() {
+        placeOrbs();
         boolean spawn = true;
 
         while (spawn) {
@@ -107,6 +111,11 @@ public class WorldGenerator implements Serializable {
 
         TETile tile = worldFrame[x][y];
         return tile.description();
+    }
+
+    /** Returns orbsCollected */
+    public String getOrbsCollected() {
+        return Integer.toString(orbsCollected);
     }
 
 
@@ -349,12 +358,42 @@ public class WorldGenerator implements Serializable {
     public void moveTo(int newX, int newY) {
         TETile tileToMoveTo = worldFrame[newX][newY];
 
-        if (tileToMoveTo.equals(Tileset.FLOOR)) {
+        if (canMovetoTile(tileToMoveTo)) {
             worldFrame[userLoc.getxPos()][userLoc.getyPos()] = Tileset.FLOOR;
             worldFrame[newX][newY] = Tileset.AVATAR;
             userLoc.replacePos(newX, newY);
         }
     }
+
+
+    /** Returns true if the tile that the user is moving to is a FLOOR or an ORB tile. Increments
+     * orbsCollected by one if the tile is an ORB tile. */
+    public boolean canMovetoTile(TETile tile) {
+        if (tile.equals(Tileset.ORB)) {
+            orbsCollected++;
+            return true;
+        }
+        return tile.equals(Tileset.FLOOR);
+    }
+
+
+    /** Places sixteen Orbs around the World in random locations. */
+    public void placeOrbs() {
+        int orbsLeft = TOTALORBS;
+
+        while (orbsLeft > 0) {
+            int x = uniform(rand, ORIGIN, WIDTH);
+            int y = uniform(rand, ORIGIN, HEIGHT);
+
+            TETile tile = worldFrame[x][y];
+
+            if (tile.equals(Tileset.FLOOR)) {
+                worldFrame[x][y] = Tileset.ORB;
+                orbsLeft--;
+            }
+        }
+    }
+
 
 
     /** Returns true if the previous character typed was a colon ':'. */
