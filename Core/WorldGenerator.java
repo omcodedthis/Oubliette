@@ -76,29 +76,16 @@ public class WorldGenerator implements Serializable {
     }
 
 
-    /** Places the user on a random FLOOR tile & returns worldFrame, updating userLoc. */
+    /** Places orbs, the user on a random FLOOR tile, fixes edge tile placement cases & returns
+     * worldFrame. */
     public TETile[][] getWorld() {
         placeOrbs();
-        boolean spawn = true;
-
-        while (spawn) {
-            int x = uniform(rand, ORIGIN, WIDTH);
-            int y = uniform(rand, ORIGIN, HEIGHT);
-
-            TETile tile = worldFrame[x][y];
-
-            if (tile.equals(Tileset.FLOOR)) {
-                worldFrame[x][y] = Tileset.AVATAR;
-
-                userLoc = new Position(x, y, 0, 0);
-
-                spawn = false;
-            }
-        }
+        placeUser();
+        fixEdgeCases();
         return worldFrame;
     }
 
-    /** Returns the seed */
+    /** Returns the seed. */
     public long getWorldSeed() {
         return Long.parseLong(seed);
     }
@@ -395,6 +382,41 @@ public class WorldGenerator implements Serializable {
     }
 
 
+    /** Places the user on a random FLOOR tile in the World & updates userLoc. */
+    public void placeUser() {
+        boolean spawn = true;
+
+        while (spawn) {
+            int x = uniform(rand, ORIGIN, WIDTH);
+            int y = uniform(rand, ORIGIN, HEIGHT);
+
+            TETile tile = worldFrame[x][y];
+
+            if (tile.equals(Tileset.FLOOR)) {
+                worldFrame[x][y] = Tileset.AVATAR;
+
+                userLoc = new Position(x, y, 0, 0);
+
+                spawn = false;
+            }
+        }
+    }
+
+
+    /** Fixes edge cases of FLOOR & WALL tiles so that all rooms are accessible. */
+    public void fixEdgeCases() {
+        for (int x = 1; x < WIDTH - 1; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+                TETile tile = worldFrame[x][y];
+                TETile tileBehind = worldFrame[x - 1][y];
+                TETile tileInFront = worldFrame[x + 1][y];
+
+                if ((tile.equals(Tileset.WALL)) && (tileBehind.equals(Tileset.FLOOR)) && (tileInFront.equals(Tileset.FLOOR))) {
+                   worldFrame[x][y] = Tileset.FLOOR;
+                }
+            }
+        }
+    }
 
     /** Returns true if the previous character typed was a colon ':'. */
     public boolean previousWasColon() {
