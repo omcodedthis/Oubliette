@@ -82,6 +82,7 @@ public class WorldGenerator implements Serializable {
         placeOrbs();
         placeUser();
         fixEdgeCases();
+        placeGate();
         return worldFrame;
     }
 
@@ -359,6 +360,8 @@ public class WorldGenerator implements Serializable {
         if (tile.equals(Tileset.ORB)) {
             orbsCollected++;
             return true;
+        } else if (tile.equals(Tileset.GATE) && (orbsCollected == TOTALORBS)) {
+            System.exit(0);
         }
         return tile.equals(Tileset.FLOOR);
     }
@@ -403,6 +406,24 @@ public class WorldGenerator implements Serializable {
     }
 
 
+    /** Places the GATE tile on a random FLOOR tile in the World. */
+    public void placeGate() {
+        boolean notPlaced = true;
+
+        while (notPlaced) {
+            int x = uniform(rand, ORIGIN, WIDTH);
+            int y = uniform(rand, ORIGIN, HEIGHT);
+
+            TETile tile = worldFrame[x][y];
+
+            if (tile.equals(Tileset.FLOOR)) {
+                worldFrame[x][y] = Tileset.GATE;
+                notPlaced = false;
+            }
+        }
+    }
+
+
     /** Fixes edge cases of FLOOR & WALL tiles so that all rooms are accessible. */
     public void fixEdgeCases() {
         for (int x = 1; x < WIDTH - 1; x++) {
@@ -411,7 +432,9 @@ public class WorldGenerator implements Serializable {
                 TETile tileBehind = worldFrame[x - 1][y];
                 TETile tileInFront = worldFrame[x + 1][y];
 
-                if ((tile.equals(Tileset.WALL)) && (tileBehind.equals(Tileset.FLOOR)) && (tileInFront.equals(Tileset.FLOOR))) {
+                // this checks if the group of tiles is FLOOR > WALL > FLOOR horizontally.
+                if ((tile.equals(Tileset.WALL)) && (tileBehind.equals(Tileset.FLOOR)) &&
+                    (tileInFront.equals(Tileset.FLOOR))) {
                    worldFrame[x][y] = Tileset.FLOOR;
                 }
             }

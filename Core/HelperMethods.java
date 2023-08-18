@@ -3,7 +3,6 @@ package byow.Core;
 import byow.TileEngine.StdDraw;
 
 
-
 /** HelperMethods contains all the relevant helper methods for the Engine class. It has one global
  * constant. The functionality of each method is explained in greater depth below.
  *
