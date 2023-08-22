@@ -29,7 +29,7 @@ public class WorldGenerator implements Serializable {
     private Position userLoc;
     private Deque<String> keyPress;
     private int orbsCollected;
-    private int maxTime = 3000;
+    private long currentTime;
 
     /** World Assets constants. */
     public static final int ORIGIN = 0;  // bottom left
@@ -82,8 +82,8 @@ public class WorldGenerator implements Serializable {
     public TETile[][] getWorld() {
         placeOrbs();
         placeUser();
-        fixEdgeCases();
         placeGate();
+        fixEdgeCases();
         return worldFrame;
     }
 
@@ -472,11 +472,18 @@ public class WorldGenerator implements Serializable {
     }
 
 
+    /** Logs the current time. */
+    public void CurrentTime()  {
+        currentTime = System.currentTimeMillis();
+    }
+
+
     /** Returns the time left, decreasing MAXTIME by 1. */
     public String getCurrentTime()  {
-        float currentTime = maxTime / 100;
-        maxTime -= 1.8;
+        long timeNow = System.currentTimeMillis();
+        long timeElapsed = timeNow - currentTime;
+        long timeElapsedInSeconds = Math.round(timeElapsed / 1000);
 
-        return Integer.toString(Math.round(currentTime));
+        return Long.toString(timeElapsedInSeconds);
     }
 }

@@ -98,6 +98,7 @@ public class Engine {
             generator.saveState();
         }
 
+        generator.CurrentTime(); // EDIT THIS (FOR DEV ONLY)
         if (isKeyboard) {
             gameLoop(generator, finalWorldFrame);
             return null;
