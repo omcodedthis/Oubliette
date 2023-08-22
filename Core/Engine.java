@@ -167,7 +167,7 @@ public class Engine {
         double centerY = WINDOWHEIGHT / 2;
 
         StdDraw.setPenColor(Color.WHITE);
-        StdDraw.text(centerX, centerY + HUDSPACING, "Catch-16");
+        StdDraw.text(centerX, centerY + HUDSPACING, "Catch-16 DEV BUILD");
         StdDraw.text(centerX, centerY, "New Game (N)");
         StdDraw.text(centerX, centerY - HUDSPACING, "Load Game (L)");
         StdDraw.text(centerX, centerY - (2 * HUDSPACING), "Quit (Q)");
@@ -203,6 +203,9 @@ public class Engine {
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.textLeft(1, textHeight, "Tile: " + tileDesc);
         StdDraw.text(WIDTH / 2, textHeight, username + "'s Adventure");
+
+        StdDraw.text((WIDTH / 2) + 10, textHeight,  generator.getCurrentTime());
+
         StdDraw.textRight(WIDTH - 2, textHeight, "Orbs Collected: "
             + generator.getOrbsCollected());
         StdDraw.line(ORIGIN, lineHeight, WIDTH, lineHeight);

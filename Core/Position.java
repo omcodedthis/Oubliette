@@ -13,7 +13,6 @@ public class Position {
     private int MIDY;
     private int HALFWIDTH;
     private int HALFLENGTH;
-
     private int xPos;
     private int yPos;
 

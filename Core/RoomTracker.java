@@ -32,6 +32,7 @@ public class RoomTracker {
         return roomList;
     }
 
+
     /** Returns size (total number of rooms). */
     public int getRoomSize() {
         return size;

@@ -29,6 +29,7 @@ public class WorldGenerator implements Serializable {
     private Position userLoc;
     private Deque<String> keyPress;
     private int orbsCollected;
+    private int maxTime = 3000;
 
     /** World Assets constants. */
     public static final int ORIGIN = 0;  // bottom left
@@ -101,7 +102,7 @@ public class WorldGenerator implements Serializable {
         return tile.description();
     }
 
-    /** Returns orbsCollected */
+    /** Returns orbsCollected. */
     public String getOrbsCollected() {
         return Integer.toString(orbsCollected);
     }
@@ -406,21 +407,14 @@ public class WorldGenerator implements Serializable {
     }
 
 
-    /** Places the GATE tile on a random FLOOR tile in the World. */
+    /** Places the GATE tile in the centre of a Room in the World. */
     public void placeGate() {
-        boolean notPlaced = true;
+        int randomIndex = uniform(rand, 0, rooms.getRoomSize());
+        ArrayList<Position> roomList = rooms.getRoomList();
+        int randomRoomX = (roomList.get(randomIndex)).getMidx();
+        int randomRoomY = (roomList.get(randomIndex)).getMidy();
 
-        while (notPlaced) {
-            int x = uniform(rand, ORIGIN, WIDTH);
-            int y = uniform(rand, ORIGIN, HEIGHT);
-
-            TETile tile = worldFrame[x][y];
-
-            if (tile.equals(Tileset.FLOOR)) {
-                worldFrame[x][y] = Tileset.GATE;
-                notPlaced = false;
-            }
-        }
+        worldFrame[randomRoomX][randomRoomY] = Tileset.GATE;
     }
 
 
@@ -439,7 +433,22 @@ public class WorldGenerator implements Serializable {
                 }
             }
         }
+
+        for (int yVer = 1; yVer < HEIGHT - 1; yVer++) {
+            for (int xVer = 0; xVer < WIDTH; xVer++) {
+                TETile tile = worldFrame[xVer][yVer];
+                TETile tileBehind = worldFrame[xVer][yVer - 1];
+                TETile tileInFront = worldFrame[xVer][yVer + 1];
+
+                // this checks if the group of tiles is FLOOR > WALL > FLOOR vertically.
+                if ((tile.equals(Tileset.WALL)) && (tileBehind.equals(Tileset.FLOOR)) &&
+                        (tileInFront.equals(Tileset.FLOOR))) {
+                    worldFrame[xVer][yVer] = Tileset.FLOOR;
+                }
+            }
+        }
     }
+
 
     /** Returns true if the previous character typed was a colon ':'. */
     public boolean previousWasColon() {
@@ -460,5 +469,14 @@ public class WorldGenerator implements Serializable {
             worldSave.createNewFile();
             writeToFile(worldSave, saveData);
         }
+    }
+
+
+    /** Returns the time left, decreasing MAXTIME by 1. */
+    public String getCurrentTime()  {
+        float currentTime = maxTime / 100;
+        maxTime -= 1.8;
+
+        return Integer.toString(Math.round(currentTime));
     }
 }
