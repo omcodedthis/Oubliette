@@ -484,6 +484,6 @@ public class WorldGenerator implements Serializable {
         long timeElapsed = timeNow - currentTime;
         long timeElapsedInSeconds = Math.round(timeElapsed / 1000);
 
-        return Long.toString(timeElapsedInSeconds);
+        return Long.toString(timeElapsedInSeconds) + "s";
     }
 }
