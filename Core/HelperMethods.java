@@ -56,7 +56,7 @@ public class HelperMethods {
     }
 
 
-    /** Parses the seed from the command line input. */
+    /** Parses the seed from the saved data. */
     public static long parseSeed(String input) {
         input = input.toLowerCase();
         String stringSeed = "";
@@ -76,6 +76,31 @@ public class HelperMethods {
 
         long seed = Long.parseLong(stringSeed);
         return seed;
+    }
+
+
+    /** Parses the time from the save data. */
+    public static long parseTime(String input) {
+        input = input.toLowerCase();
+        String stringTime = "";
+
+        int startIndex = input.indexOf(']');
+
+        for (int i = startIndex; i < input.length(); i++) {
+            char ch = input.charAt(i);
+
+            if (ch == 's') {
+                break;
+            }
+
+            boolean isDigit = Character.isDigit(ch);
+            if (isDigit) {
+                stringTime += ch;
+            }
+        }
+
+        long time = Long.parseLong(stringTime);
+        return time;
     }
 
 

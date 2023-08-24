@@ -30,6 +30,7 @@ public class WorldGenerator implements Serializable {
     private Deque<String> keyPress;
     private int orbsCollected;
     private long currentTime;
+    private long totalTime = 30;
 
     /** World Assets constants. */
     public static final int ORIGIN = 0;  // bottom left
@@ -43,7 +44,7 @@ public class WorldGenerator implements Serializable {
 
     /** Constructor for this class, which sets multiple global constants & fills worldFrame with
      * NOTHING tiles. */
-    public WorldGenerator(TETile[][] frame, int width, int height, long s) {
+    public WorldGenerator(TETile[][] frame, int width, int height, long s, long time) {
         worldFrame = frame;
         WIDTH = width;
         HEIGHT = height;
@@ -53,6 +54,7 @@ public class WorldGenerator implements Serializable {
         keyPress = new ArrayDeque<String>();
         keyPress.addLast(".");
         orbsCollected = 0;
+        totalTime = time;
 
         //StdDraw.clear(new Color(0, 0, 0));
         fillWithNothingTiles();
@@ -104,7 +106,11 @@ public class WorldGenerator implements Serializable {
 
     /** Returns orbsCollected. */
     public String getOrbsCollected() {
-        return Integer.toString(orbsCollected);
+        if (orbsCollected < 10) {
+            return "0" + orbsCollected;
+        } else {
+            return Integer.toString(orbsCollected);
+        }
     }
 
 
@@ -461,7 +467,7 @@ public class WorldGenerator implements Serializable {
     /** Saves the world state to world_save.txt in the CWD.*/
     public void saveState() throws IOException {
         File worldSave = new File(SAVES);
-        String saveData = seed + keyPress;
+        String saveData = seed + keyPress + getCurrentTime();
 
         if (worldSave.exists()) {
             writeToFile(worldSave, saveData);
@@ -473,17 +479,22 @@ public class WorldGenerator implements Serializable {
 
 
     /** Logs the current time. */
-    public void CurrentTime()  {
+    public void logCurrentTime()  {
         currentTime = System.currentTimeMillis();
     }
 
 
-    /** Returns the time left, decreasing MAXTIME by 1. */
+    /** Returns the time left, dependent on totalTime. */
     public String getCurrentTime()  {
         long timeNow = System.currentTimeMillis();
-        long timeElapsed = timeNow - currentTime;
-        long timeElapsedInSeconds = Math.round(timeElapsed / 1000);
+        long timeRemaining = timeNow - currentTime;
+        long timeRemainingInSeconds = totalTime - Math.round(timeRemaining / 1000);
 
-        return Long.toString(timeElapsedInSeconds);
+        // for formatting purposes.
+        if (timeRemainingInSeconds < 10) {
+            return "0" + timeRemainingInSeconds + "s";
+        } else {
+            return timeRemainingInSeconds + "s";
+        }
     }
 }

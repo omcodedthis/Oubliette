@@ -25,6 +25,8 @@ public class Engine {
     public static final int HUDSPACING = 3;
     public static final int WINDOWWIDTH = WIDTH - 1;
     public static final int WINDOWHEIGHT = HEIGHT + HUDHEIGHT;
+    public static final int TOTALORBS = 16;
+    public static final long DEFAULTTIME = 30;
 
 
 
@@ -53,15 +55,6 @@ public class Engine {
     /* Helper methods for the Engine class. */
 
 
-    /** Loads the game with a save. */
-    public TETile[][] loadGameWithSave(TETile[][] finalWorldFrame, String input, String saveData,
-            boolean isKeyboard) throws IOException {
-        long seed = parseSeed(saveData);
-        finalWorldFrame = generateWorld(finalWorldFrame, seed, input, saveData, isKeyboard);
-        return finalWorldFrame;
-    }
-
-
     /** Loads the game without a save (new save). */
     public TETile[][] loadGame(TETile[][] finalWorldFrame, long seed, String input,
             boolean isKeyboard) throws IOException {
@@ -69,17 +62,28 @@ public class Engine {
             seed = parseSeed(input);
         }
 
-        finalWorldFrame = generateWorld(finalWorldFrame, seed, input, null, isKeyboard);
+        finalWorldFrame = generateWorld(finalWorldFrame, seed, input, null, DEFAULTTIME, isKeyboard);
+        return finalWorldFrame;
+    }
+
+
+    /** Loads the game with a save. */
+    public TETile[][] loadGameWithSave(TETile[][] finalWorldFrame, String input, String saveData,
+                                       boolean isKeyboard) throws IOException {
+        long seed = parseSeed(saveData);
+        long time = parseTime(saveData);
+
+        finalWorldFrame = generateWorld(finalWorldFrame, seed, input, saveData, time, isKeyboard);
         return finalWorldFrame;
     }
 
 
     /** Generates the world. */
     public TETile[][] generateWorld(TETile[][] finalWorldFrame, long seed, String input,
-            String saveData, boolean isKeyboard) throws IOException {
+            String saveData, long time, boolean isKeyboard) throws IOException {
         input =  input.toLowerCase();
 
-        WorldGenerator generator = new WorldGenerator(finalWorldFrame, WIDTH, HEIGHT, seed);
+        WorldGenerator generator = new WorldGenerator(finalWorldFrame, WIDTH, HEIGHT, seed, time);
         finalWorldFrame = generator.getWorld();
         String validInput = parseValidInput(input);
 
@@ -98,7 +102,6 @@ public class Engine {
             generator.saveState();
         }
 
-        generator.CurrentTime(); // EDIT THIS (FOR DEV ONLY)
         if (isKeyboard) {
             gameLoop(generator, finalWorldFrame);
             return null;
@@ -204,11 +207,12 @@ public class Engine {
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.textLeft(1, textHeight, "Tile: " + tileDesc);
         StdDraw.text(WIDTH / 2, textHeight, username + "'s Adventure");
-
-        StdDraw.text((WIDTH / 2) + 10, textHeight,  generator.getCurrentTime());
-
+        StdDraw.textRight(WIDTH - 12.99, textHeight,  "Time Left: " + generator.getCurrentTime());
         StdDraw.textRight(WIDTH - 2, textHeight, "Orbs Collected: "
-            + generator.getOrbsCollected());
+            + generator.getOrbsCollected() + " / " + TOTALORBS);
+        StdDraw.line(9.4, HEIGHT + HUDHEIGHT, 9.4, lineHeight);
+        StdDraw.line(WIDTH - 19.55, HEIGHT + HUDHEIGHT, WIDTH - 19.55, lineHeight);
+        StdDraw.line(WIDTH - 12.5, HEIGHT + HUDHEIGHT, WIDTH - 12.5, lineHeight);
         StdDraw.line(ORIGIN, lineHeight, WIDTH, lineHeight);
     }
 
@@ -218,6 +222,7 @@ public class Engine {
         boolean gameOver = false;
         String username = getUsername();
 
+        generator.logCurrentTime();
         while (!gameOver) {
             updateHUD(generator, username);
             ter.renderFrame(finalWorldFrame);
