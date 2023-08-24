@@ -106,6 +106,7 @@ public class WorldGenerator implements Serializable {
 
     /** Returns orbsCollected. */
     public String getOrbsCollected() {
+        // for formatting purposes.
         if (orbsCollected < 10) {
             return "0" + orbsCollected;
         } else {
