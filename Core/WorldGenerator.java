@@ -30,12 +30,12 @@ public class WorldGenerator implements Serializable {
     private Deque<String> keyPress;
     private int orbsCollected;
     private long currentTime;
-    private long totalTime = 30;
+    private long totalTime;
 
-    /** World Assets constants. */
+    /** World Assets constants. Determines how the World looks. */
     public static final int ORIGIN = 0;  // bottom left
-    public static final int ROOMMIN = 5;
-    public static final int ROOMMAX = 10;
+    public static final int ROOMMIN = 7;
+    public static final int ROOMMAX = 12;
     public static final int LINKBOUND = 1;
     public static final int HALLWAYWIDTHBOUND = 3;
     public static final int OFFSET = 1;
@@ -153,7 +153,7 @@ public class WorldGenerator implements Serializable {
 
     /** Using pseudorandomness to determine whether a second room in the sector should be drawn. */
     public boolean drawSecondRoom() {
-        int outcome = uniform(rand, 0, 5);
+        int outcome = uniform(rand, 0, 1);
 
         return (outcome == 0);
     }
@@ -174,7 +174,8 @@ public class WorldGenerator implements Serializable {
     }
 
 
-    /** Draws a room (top-down) with a pseudorandom width & length. */
+    /** Draws a room (top-down) with a pseudorandom width & length. Slighty complex, but the
+     * complexity arises from checking whether a tile can be drawn before it is drawn. */
     public void drawRoom(int x, int y) {
         int width = uniform(rand, ROOMMIN, ROOMMAX);
         int length = uniform(rand, ROOMMIN, ROOMMAX);
@@ -184,6 +185,11 @@ public class WorldGenerator implements Serializable {
         for (int dy = 0; dy < length; dy++) {
             if ((dy == 0) || (dy == (length - 1))) {
                 for (int dx = 0; dx < width; dx++) {
+
+                    if (((roomLoc.getxPos() + dx) >= (WIDTH)) || (roomLoc.getyPos()) >= (HEIGHT)) {
+                        continue;
+                    }
+
                     worldFrame[roomLoc.getxPos() + dx][roomLoc.getyPos()] = Tileset.WALL;
                 }
                 roomLoc.changeyPos(-1);
@@ -192,12 +198,19 @@ public class WorldGenerator implements Serializable {
 
             worldFrame[roomLoc.getxPos()][roomLoc.getyPos()] = Tileset.WALL;
             for (int dx = 1; dx < width - 1; dx++) {
+                if (((roomLoc.getxPos() + dx) >= (WIDTH - OFFSET - OFFSET)) || (roomLoc.getyPos()) >= (HEIGHT)) {
+                    worldFrame[WIDTH - OFFSET - OFFSET][roomLoc.getyPos()] = Tileset.WALL;
+                    continue;
+                }
+
+
                 worldFrame[roomLoc.getxPos() + dx][roomLoc.getyPos()] = Tileset.FLOOR;
             }
-            worldFrame[roomLoc.getxPos() + width - 1][roomLoc.getyPos()] = Tileset.WALL;
+            if (((roomLoc.getxPos() + width - OFFSET) < (WIDTH - OFFSET)) && ((roomLoc.getyPos()) < (HEIGHT - OFFSET))) {
+                worldFrame[roomLoc.getxPos() + width - OFFSET][roomLoc.getyPos()] = Tileset.WALL;
+            }
 
             roomLoc.changeyPos(-1);
-            continue;
         }
     }
 
@@ -369,7 +382,7 @@ public class WorldGenerator implements Serializable {
             orbsCollected++;
             return true;
         } else if (tile.equals(Tileset.GATE) && (orbsCollected == TOTALORBS)) {
-            System.exit(0);
+            Engine.showWinScreen(seed, getTimeTaken());
         }
         return tile.equals(Tileset.FLOOR);
     }
@@ -490,6 +503,25 @@ public class WorldGenerator implements Serializable {
         long timeNow = System.currentTimeMillis();
         long timeRemaining = timeNow - currentTime;
         long timeRemainingInSeconds = totalTime - Math.round(timeRemaining / 1000);
+
+        if (timeRemainingInSeconds <= 0) {
+            Engine.showLoseScreen(seed);
+        }
+
+        // for formatting purposes.
+        if (timeRemainingInSeconds < 10) {
+            return "0" + timeRemainingInSeconds + "s";
+        } else {
+            return timeRemainingInSeconds + "s";
+        }
+    }
+
+
+    /** Returns the time taken, dependent on totalTime. */
+    public String getTimeTaken()  {
+        long timeNow = System.currentTimeMillis();
+        long timeRemaining = timeNow - currentTime;
+        long timeRemainingInSeconds = Math.round(timeRemaining / 1000);
 
         // for formatting purposes.
         if (timeRemainingInSeconds < 10) {

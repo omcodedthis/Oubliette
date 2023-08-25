@@ -26,7 +26,7 @@ public class Engine {
     public static final int WINDOWWIDTH = WIDTH - 1;
     public static final int WINDOWHEIGHT = HEIGHT + HUDHEIGHT;
     public static final int TOTALORBS = 16;
-    public static final long DEFAULTTIME = 30;
+    public static final long DEFAULTTIME = 40;
 
 
 
@@ -229,22 +229,53 @@ public class Engine {
             gameOver = commandAvatar(generator);
         }
         long seed = generator.getWorldSeed();
-        showEndScreen(seed);
+        showSaveScreen(seed);
         generator.saveState();
     }
 
 
     /** Shows the end screen. */
-    public static void showEndScreen(long seed) {
+    public static void showSaveScreen(long seed) {
         StdDraw.clear(new Color(0, 0, 0));
         double centerX = WINDOWWIDTH / 2;
         double centerY = WINDOWHEIGHT / 2;
 
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.text(centerX, centerY + HUDSPACING, "You have successfully saved your"
-            + " progress.");
+                + " progress.");
         StdDraw.text(centerX, centerY, "Seed: " + seed);
 
         StdDraw.show();
+    }
+
+
+    /** Shows the Win screen. */
+    public static void showWinScreen(String seed, String time) {
+        StdDraw.clear(new Color(0, 0, 0));
+        double centerX = WINDOWWIDTH / 2;
+        double centerY = WINDOWHEIGHT / 2;
+
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.text(centerX, centerY + HUDSPACING, "Congratulations! You found all the Orbs in " + time + ".");
+        StdDraw.text(centerX, centerY, "Seed: " + seed);
+
+        StdDraw.show();
+        StdDraw.pause(10000);
+        System.exit(0);
+    }
+
+    /** Shows the Lose screen. */
+    public static void showLoseScreen(String seed) {
+        StdDraw.clear(new Color(0, 0, 0));
+        double centerX = WINDOWWIDTH / 2;
+        double centerY = WINDOWHEIGHT / 2;
+
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.text(centerX, centerY + HUDSPACING, "You did not find all the Orbs in time!");
+        StdDraw.text(centerX, centerY, "Seed: " + seed);
+
+        StdDraw.show();
+        StdDraw.pause(10000);
+        System.exit(0);
     }
 }
