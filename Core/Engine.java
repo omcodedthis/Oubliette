@@ -26,7 +26,7 @@ public class Engine {
     public static final int WINDOWWIDTH = WIDTH - 1;
     public static final int WINDOWHEIGHT = HEIGHT + HUDHEIGHT;
     public static final int TOTALORBS = 16;
-    public static final long DEFAULTTIME = 30;
+    public static final long DEFAULTTIME = 60;
 
 
 
@@ -171,10 +171,19 @@ public class Engine {
         double centerY = WINDOWHEIGHT / 2;
 
         StdDraw.setPenColor(Color.WHITE);
-        StdDraw.text(centerX, centerY + HUDSPACING, "Catch-16 DEV BUILD");
-        StdDraw.text(centerX, centerY, "New Game (N)");
-        StdDraw.text(centerX, centerY - HUDSPACING, "Load Game (L)");
-        StdDraw.text(centerX, centerY - (2 * HUDSPACING), "Quit (Q)");
+
+        Font font1 = new Font("Times New Roman", Font.BOLD, 60);
+        StdDraw.setFont(font1);
+        StdDraw.text(centerX, centerY + HUDSPACING, "Oubliette");
+        StdDraw.setTitle("Oubliette");
+
+        Font font2 = new Font("Arial", Font.BOLD, 20);
+        StdDraw.setFont(font2);
+        StdDraw.text(centerX, centerY - 2, "New Game (N)");
+        StdDraw.text(centerX, (centerY - HUDSPACING) - 2, "Load Game (L)");
+        StdDraw.text(centerX, (centerY - (2 * HUDSPACING)) - 2, "Quit (Q)");
+        Font font3 = new Font("Arial", Font.BOLD, 15);
+        StdDraw.setFont(font3);
 
         StdDraw.show();
 
@@ -203,16 +212,22 @@ public class Engine {
         String tileDesc = generator.getTileDescription(mouseX, mouseY);
 
 
+
+        double tileDesPos = 1;
+        double advPos = WIDTH / 2;
+        double orbsCollectedPos = WIDTH - 2;
+        double timePos = orbsCollectedPos - 11.5;
+
         // draws the HUD text
         StdDraw.setPenColor(Color.WHITE);
-        StdDraw.textLeft(1, textHeight, "Tile: " + tileDesc);
-        StdDraw.text(WIDTH / 2, textHeight, username + "'s Adventure");
-        StdDraw.textRight(WIDTH - 12.99, textHeight,  "Time Left: " + generator.getCurrentTime());
-        StdDraw.textRight(WIDTH - 2, textHeight, "Orbs Collected: "
+        StdDraw.textLeft(tileDesPos, textHeight, "Tile: " + tileDesc);
+        StdDraw.text(advPos, textHeight, username + "'s Adventure");
+        StdDraw.textRight(timePos, textHeight,  "Time Left: " + generator.getCurrentTime());
+        StdDraw.textRight(orbsCollectedPos, textHeight, "Orbs Collected: "
             + generator.getOrbsCollected() + " / " + TOTALORBS);
-        StdDraw.line(9.4, HEIGHT + HUDHEIGHT, 9.4, lineHeight);
-        StdDraw.line(WIDTH - 19.55, HEIGHT + HUDHEIGHT, WIDTH - 19.55, lineHeight);
-        StdDraw.line(WIDTH - 12.5, HEIGHT + HUDHEIGHT, WIDTH - 12.5, lineHeight);
+        StdDraw.line(9.8, HEIGHT + HUDHEIGHT, 9.8, lineHeight);
+        StdDraw.line(WIDTH - 20.5, HEIGHT + HUDHEIGHT, WIDTH - 20.5, lineHeight);
+        StdDraw.line(WIDTH - 12.9, HEIGHT + HUDHEIGHT, WIDTH - 12.9, lineHeight);
         StdDraw.line(ORIGIN, lineHeight, WIDTH, lineHeight);
     }
 
@@ -229,22 +244,53 @@ public class Engine {
             gameOver = commandAvatar(generator);
         }
         long seed = generator.getWorldSeed();
-        showEndScreen(seed);
+        showSaveScreen(seed);
         generator.saveState();
     }
 
 
     /** Shows the end screen. */
-    public static void showEndScreen(long seed) {
+    public static void showSaveScreen(long seed) {
         StdDraw.clear(new Color(0, 0, 0));
         double centerX = WINDOWWIDTH / 2;
         double centerY = WINDOWHEIGHT / 2;
 
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.text(centerX, centerY + HUDSPACING, "You have successfully saved your"
-            + " progress.");
+                + " progress.");
         StdDraw.text(centerX, centerY, "Seed: " + seed);
 
         StdDraw.show();
+    }
+
+
+    /** Shows the Win screen. */
+    public static void showWinScreen(String seed, String time) {
+        StdDraw.clear(new Color(0, 0, 0));
+        double centerX = WINDOWWIDTH / 2;
+        double centerY = WINDOWHEIGHT / 2;
+
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.text(centerX, centerY + HUDSPACING, "Congratulations! You found all the Orbs in " + time + ".");
+        StdDraw.text(centerX, centerY, "Seed: " + seed);
+
+        StdDraw.show();
+        StdDraw.pause(10000);
+        System.exit(0);
+    }
+
+    /** Shows the Lose screen. */
+    public static void showLoseScreen(String seed) {
+        StdDraw.clear(new Color(0, 0, 0));
+        double centerX = WINDOWWIDTH / 2;
+        double centerY = WINDOWHEIGHT / 2;
+
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.text(centerX, centerY + HUDSPACING, "You did not find all the Orbs in time!");
+        StdDraw.text(centerX, centerY, "Seed: " + seed);
+
+        StdDraw.show();
+        StdDraw.pause(10000);
+        System.exit(0);
     }
 }
