@@ -1,4 +1,4 @@
-# Catch-16
+# Oubliette
 A  2D tile-based world exploration game, complete with its own World Generation Algorithm &amp; ability to interact with the world.
 
 
