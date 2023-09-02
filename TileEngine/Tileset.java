@@ -23,15 +23,9 @@ public class Tileset {
     public static final TETile FLOOR = new TETile('·', new Color(128, 192, 128), Color.black,
             "floor", "Tileset/FLOOR.png");
     public static final TETile NOTHING = new TETile(' ', Color.black, Color.black, "nothing");
-    public static final TETile GRASS = new TETile('"', Color.green, Color.black, "grass");
-    public static final TETile WATER = new TETile('≈', Color.blue, Color.black, "water");
     public static final TETile ORB = new TETile('❀', Color.orange, Color.yellow, "sacred Orb", "Tileset/ORB.png");
     public static final TETile GATE = new TETile('█', Color.gray, Color.yellow, "sacred Gate", "Tileset/GATE.png");
-    public static final TETile UNLOCKED_DOOR = new TETile('▢', Color.orange, Color.black,
-            "unlocked door");
-    public static final TETile SAND = new TETile('▒', Color.yellow, Color.black, "sand");
-    public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain");
-    public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
+
 }
 
 

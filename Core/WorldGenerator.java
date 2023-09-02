@@ -29,8 +29,9 @@ public class WorldGenerator implements Serializable {
     private Position userLoc;
     private Deque<String> keyPress;
     private int orbsCollected;
-    private long currentTime;
+    private long loggedTime;
     private long totalTime;
+    private boolean isLoadedFromSave;
 
     /** World Assets constants. Determines how the World looks. */
     public static final int ORIGIN = 0;  // bottom left
@@ -40,11 +41,12 @@ public class WorldGenerator implements Serializable {
     public static final int HALLWAYWIDTHBOUND = 3;
     public static final int OFFSET = 1;
     public static final int TOTALORBS = 16;
+    public static final long DEFAULTTIME = 60;
 
 
     /** Constructor for this class, which sets multiple global constants & fills worldFrame with
      * NOTHING tiles. */
-    public WorldGenerator(TETile[][] frame, int width, int height, long s, long time) {
+    public WorldGenerator(TETile[][] frame, int width, int height, long s, long time, boolean isSave) {
         worldFrame = frame;
         WIDTH = width;
         HEIGHT = height;
@@ -55,8 +57,8 @@ public class WorldGenerator implements Serializable {
         keyPress.addLast(".");
         orbsCollected = 0;
         totalTime = time;
+        isLoadedFromSave = isSave;
 
-        //StdDraw.clear(new Color(0, 0, 0));
         fillWithNothingTiles();
         drawWorld();
     }
@@ -494,14 +496,14 @@ public class WorldGenerator implements Serializable {
 
     /** Logs the current time. */
     public void logCurrentTime()  {
-        currentTime = System.currentTimeMillis();
+        loggedTime = System.currentTimeMillis();
     }
 
 
     /** Returns the time left, dependent on totalTime. */
     public String getCurrentTime()  {
         long timeNow = System.currentTimeMillis();
-        long timeRemaining = timeNow - currentTime;
+        long timeRemaining = timeNow - loggedTime;
         long timeRemainingInSeconds = totalTime - Math.round(timeRemaining / 1000);
 
         if (timeRemainingInSeconds <= 0) {
@@ -517,11 +519,17 @@ public class WorldGenerator implements Serializable {
     }
 
 
-    /** Returns the time taken, dependent on totalTime. */
+    /** Returns the time taken for completing a World. */
     public String getTimeTaken()  {
         long timeNow = System.currentTimeMillis();
-        long timeRemaining = timeNow - currentTime;
-        long timeRemainingInSeconds = Math.round(timeRemaining / 1000);
+        long timeRemaining = timeNow - loggedTime;
+        long timeRemainingInSeconds;
+
+        if (isLoadedFromSave) {
+            timeRemainingInSeconds = (DEFAULTTIME - totalTime) + Math.round(timeRemaining / 1000);
+        } else {
+            timeRemainingInSeconds = Math.round(timeRemaining / 1000);
+        }
 
         // for formatting purposes.
         if (timeRemainingInSeconds < 10) {

@@ -6,21 +6,8 @@ import java.io.IOException;
  *  the command line inputs, and lets the byow.Core.Engine class take over.
  */
 public class Main {
-    public static void main(String[] args) {
-        try {
-            if (args.length > 2) {
-                System.out.println("Can only have two arguments - the flag and input string");
-                System.exit(0);
-            } else if (args.length == 2 && args[0].equals("-s")) {
-                Engine engine = new Engine();
-                System.out.println(engine.toString());
-            }
-            else {
-                Engine engine = new Engine();
-                engine.interactWithKeyboard();
-            }
-        } catch (IOException e) {
-            System.out.println("An IOException has occurred.");
-        }
+    public static void main(String[] args) throws IOException {
+        Engine engine = new Engine();
+        engine.interactWithKeyboard();
     }
 }
