@@ -4,6 +4,7 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.StdDraw;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import static byow.Core.HelperMethods.*;
 
@@ -26,8 +27,7 @@ public class Engine {
     public static final int WINDOWWIDTH = WIDTH - 1;
     public static final int WINDOWHEIGHT = HEIGHT + HUDHEIGHT;
     public static final int TOTALORBS = 16;
-    public static final long DEFAULTTIME = 60;
-
+    public static final long DEFAULTTIME = 80;
 
 
     /**
@@ -37,7 +37,6 @@ public class Engine {
     public void interactWithKeyboard() throws IOException {
         ter.initialize(WINDOWWIDTH, WINDOWHEIGHT);
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
-        boolean isKeyboard = true;
 
         String input = showHomescreen();
 

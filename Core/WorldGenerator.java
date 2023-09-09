@@ -41,7 +41,7 @@ public class WorldGenerator implements Serializable {
     public static final int HALLWAYWIDTHBOUND = 3;
     public static final int OFFSET = 1;
     public static final int TOTALORBS = 16;
-    public static final long DEFAULTTIME = 60;
+    public static final long DEFAULTTIME = 80;
 
 
     /** Constructor for this class, which sets multiple global constants & fills worldFrame with
@@ -84,10 +84,10 @@ public class WorldGenerator implements Serializable {
     /** Places orbs, the user on a random FLOOR tile, fixes edge tile placement cases & returns
      * worldFrame. */
     public TETile[][] getWorld() {
+        fixEdgeCases();
+        placeGate();
         placeOrbs();
         placeUser();
-        placeGate();
-        fixEdgeCases();
         return worldFrame;
     }
 
