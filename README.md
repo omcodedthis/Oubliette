@@ -1,13 +1,15 @@
 # ![Logo](https://github.com/omcodedthis/Oubliette/assets/119602009/c3dd4cdc-5d42-4548-b76f-492201f411ff) Oubliette
-Oubliette is a a 2D tile-based world exploration game, complete with its very own world exploration engine. The world exploration engine will build a world, which the user will be able to explore by walking around and interacting with objects in that world with an overhead perspective. 
+Oubliette is a a 2D tile-based world exploration game, complete with its very own world exploration engine. The world exploration engine will build a world, which the user will be able to explore by walking around and interacting with objects in that world with an overhead perspective. This project has been adapted from my final project for [CS61B.](https://github.com/omcodedthis/CS61B-Scores)
 
-Each world is pseudorandomly generated & is based on a unique seed which can be decided & saved by the user. The name Oubliette is french for a secret dungeon with access only through a trapdoor in its ceiling similar to the context of the game. The task is to to collect sixteen orbs and reach the gate within eighty seconds. It is currently hosted on [Itch.io,](https://itch.io/) a game hosting service.
+Each world is pseudorandomly generated & is based on a unique seed which can be decided & saved by the user. It should be able to handle any positive seed up to 9,223,372,036,854,775,807. There is no defined behavior for seeds larger than this. The name Oubliette comes from french & is defined as a secret dungeon with access only through a trapdoor in its ceiling, similar to the context of the game. The task is to to collect sixteen orbs and reach the gate within eighty seconds. It is currently hosted on [Itch.io,](https://itch.io/) a game hosting service.
 
 ## Demo
 https://github.com/omcodedthis/Oubliette/assets/119602009/17a36234-9d0d-470b-943c-e5965fead78e
 
 
 ## Interactivity in Oubliette
+This section explains the interactivity aspects of Oubliette in greater detail. The reasoning & the purposes of the classes created are explained in the files itself.
+
 <details>
 <summary>View more information on the Title Screen.</summary>
 
@@ -71,18 +73,24 @@ Oubliette has the ability to save the state of the world while exploring, as wel
 
 Above is a simplified visual representation of how the the Algorithm works, relying on simple principles. 
 
-Firstly, the World is split into five sectors. Each sector has one room drawn by default by `drawRoom()` at a random x coordinate & a 50% chance for a second room to be drawn, decided by `drawSecondRoom()`. Every room's top left coordinates are added to a `RoomTracker` object. After all the possible rooms for every sector has been drawn, the rooms are connected sequentially using `drawLink()` to generate the hallways. 
+Firstly, the World is split into five sectors. Each sector has one room drawn by default by `drawRoom()` at a random x coordinate & a 50% chance for a second room to be drawn, decided by `drawSecondRoom()`. Every room's top left coordinates are added to `rooms`,  a `RoomTracker` object. After all the possible rooms for every sector has been drawn, the rooms are connected sequentially using `drawLink()` to generate the hallways. 
 
 The edge cases caused by these functions are rectified using `fixEdgeCases()` before finalising the 2D TETile array in `worldFrame`.
 
 
 ## Credits
+* [Pattern Pixel Pack by Kenny:](https://www.kenney.nl/assets/pattern-pack-pixel) This pack was adapted to create the 16x16 tile assets.
+
+* [StdDraw by Princeton University:](https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdDraw.html) This was used to render the world & used as an interface for user input. 
+
+* [The Archon tile from NetHack's Wiki:](https://nethackwiki.com/wiki/File:Archon.png) This 16x16 asset was used to create the character used in Oubliette.
 
 
 ## Getting Started
+* Download the game from [Oubliette's Itch.io page.](https://oubliettegame.itch.io/oubliette) _**(Work in Progress)**_
+
+* Download this repository & run this project using an IDE, such as [IntelliJ IDEA.](https://www.jetbrains.com/idea/)
 
 
 ## My Thoughts
-
-
-# _WORK IN PROGESS._
+Oubliette provided a point of growth, as the goal of this project was to teach myself how to handle a larger piece of code with little starter code in the hopes of emulating something like a product development cycle. Since there is no notion of “the correct answer” when it comes to world design and implementation, a great deal of exploration and experimentation was required for such an open-ended project. I learnt that it is ok and expected to go through several iterations before settling on something that I deemed good. That is, this project is about the principles of software engineering.
