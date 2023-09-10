@@ -1,10 +1,12 @@
 # ![Logo](https://github.com/omcodedthis/Oubliette/assets/119602009/c3dd4cdc-5d42-4548-b76f-492201f411ff) Oubliette
-Oubliette is a a 2D tile-based world exploration game, complete with its very own world exploration engine. The world exploration engine will build a world, which the user will be able to explore by walking around and interacting with objects in that world with an overhead perspective. This project has been adapted from my final project for [CS61B.](https://github.com/omcodedthis/CS61B-Scores)
+Oubliette is a 2D tile-based world exploration game, complete with its very own world exploration engine. The world exploration engine will build a world, which the user will be able to explore by walking around and interacting with objects in that world with an overhead perspective. This project has been adapted from my final project for [CS61B.](https://github.com/omcodedthis/CS61B-Scores)
 
-Each world is pseudorandomly generated & is based on a unique seed which can be decided & saved by the user. It should be able to handle any positive seed up to 9,223,372,036,854,775,807. There is no defined behavior for seeds larger than this. The name Oubliette comes from french & is defined as a secret dungeon with access only through a trapdoor in its ceiling, similar to the context of the game. The task is to to collect sixteen orbs and reach the gate within eighty seconds. It is currently hosted on [Itch.io,](https://itch.io/) a game hosting service.
+Each world is pseudorandomly generated & is based on a unique seed which can be decided & saved by the user. It should be able to handle any positive seed up to 9,223,372,036,854,775,807. There is no defined behavior for seeds larger than this. 
+
+The name Oubliette comes from French & is defined as a secret dungeon with access only through a trapdoor in its ceiling, similar to the context of the game. The task is to to collect sixteen orbs and reach the gate within eighty seconds. It is currently hosted on [Itch.io,](https://itch.io/) a game hosting service.
 
 ## Demo
-https://github.com/omcodedthis/Oubliette/assets/119602009/17a36234-9d0d-470b-943c-e5965fead78e
+https://github.com/omcodedthis/Oubliette/assets/119602009/96fefde3-72dd-43a1-a0b4-114054ecfe07
 
 
 ## Interactivity in Oubliette
@@ -17,7 +19,7 @@ This section explains the interactivity aspects of Oubliette in greater detail. 
 
 This screen shows the title of the game & the relevant menu options: start a new game, load a previous save or save & quit. If the user chooses to load a new game, the user can input their desired seed. This seed is then used pseudorandomly to generate a world (ie: the same seed will always generate the exact same world each run).
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </details>
 
 <details>
@@ -29,7 +31,7 @@ This screen shows the title of the game & the relevant menu options: start a new
 
 These screens asks the user for their desired seed & username. The seed can be any integer & the user denotes the end of the seed using an 's'. The username can be any valid keyboard input, '.' denotes the end.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </details>
 
 <details>
@@ -44,7 +46,7 @@ This project uses [StdDraw](https://introcs.cs.princeton.edu/java/stdlib/javadoc
 * StdDraw does not support key combinations. ":Q" means ":" followed by "Q".
 * It can only register key presses that result in a char. This means any unicode character will be fine but keys such as the arrow keys and escape will not work.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </details>
 
 <details>
@@ -54,7 +56,7 @@ This project uses [StdDraw](https://introcs.cs.princeton.edu/java/stdlib/javadoc
 
 The HUD provides additional information that is useful to the user. This is split into 4 components. The description of a given tile when the user mouses-over a tile, the username chosen by the user, the time left & the number of orbs collected.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </details>
 
 <details>
@@ -64,18 +66,40 @@ The HUD provides additional information that is useful to the user. This is spli
 
 Oubliette has the ability to save the state of the world while exploring, as well as to subsequently load the world into the exact state it was in when last saved. When the user restarts Oubliette and presses L, the world loaded is exactly the same state as it was before the world was terminated. The command “:Q” saves the data to world_save and completely terminates the program. The user is shown a "successful save" screen upon saving.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </details>
 
 ## The World Generation Algorithm Explained
 
 ![wgar](https://github.com/omcodedthis/Oubliette/assets/119602009/60643e32-0044-430c-9bac-e90734d2d630)
 
-Above is a simplified visual representation of how the the Algorithm works, relying on simple principles. 
+Above is a simplified visual representation of how the the Algorithm works, relying on simple principles. The pseudorandomness is created by passing the seed the user chooses to a `Random` object which then outputs the sequence of random numbers which is then used to generate the World.
 
-Firstly, the World is split into five sectors. Each sector has one room drawn by default by `drawRoom()` at a random x coordinate & a 50% chance for a second room to be drawn, decided by `drawSecondRoom()`. Every room's top left coordinates are added to `rooms`,  a `RoomTracker` object. After all the possible rooms for every sector has been drawn, the rooms are connected sequentially using `drawLink()` to generate the hallways. 
+Firstly, the World is split into five sectors. Each sector has one room drawn by default by `drawRoom()` at a random x-coordinate & a 50% chance for a second room to be drawn, decided by `drawSecondRoom()`. Every room's top left coordinates are added to `rooms`,  a `RoomTracker` object. After all the possible rooms for every sector has been drawn, the rooms are connected sequentially using `drawLink()` to generate the hallways. 
 
 The edge cases caused by these functions are rectified using `fixEdgeCases()` before finalising the 2D TETile array in `worldFrame`.
+
+<br>
+<details>
+<summary><b>View some generated Worlds & their respective seeds.</b></summary>
+
+**Seed: 43095430**
+![w0](https://github.com/omcodedthis/Oubliette/assets/119602009/6109a971-6998-44e3-ae32-a5e997642376)
+
+**Seed: 78459393**
+![w1](https://github.com/omcodedthis/Oubliette/assets/119602009/6b794802-4a5b-425f-a8b2-dd74846f96c6)
+
+**Seed: 80923490**
+![w2](https://github.com/omcodedthis/Oubliette/assets/119602009/7b61e381-8fe9-45d8-8a40-3e2470f001f0)
+
+**Seed: 39504394**
+![w3](https://github.com/omcodedthis/Oubliette/assets/119602009/2a882156-735d-4ff1-bc03-ae5389ae5de1)
+
+**Seed: 14092325**
+![w4](https://github.com/omcodedthis/Oubliette/assets/119602009/8a772144-1f1a-4517-88b2-4e1e70ab7a92)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+</details>
 
 
 ## Credits
@@ -87,7 +111,7 @@ The edge cases caused by these functions are rectified using `fixEdgeCases()` be
 
 
 ## Getting Started
-* Download the game from [Oubliette's Itch.io page.](https://oubliettegame.itch.io/oubliette) _**(Work in Progress)**_
+* Download the game from [Oubliette's Itch.io page.](https://oubliettegame.itch.io/oubliette)
 
 * Download this repository & run this project using an IDE, such as [IntelliJ IDEA.](https://www.jetbrains.com/idea/)
 
