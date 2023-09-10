@@ -71,7 +71,7 @@ Oubliette has the ability to save the state of the world while exploring, as wel
 
 ## The World Generation Algorithm Explained
 
-![wgar](https://github.com/omcodedthis/Oubliette/assets/119602009/60643e32-0044-430c-9bac-e90734d2d630)
+![wgar](https://github.com/omcodedthis/Oubliette/assets/119602009/8b163d97-5217-4fff-8f55-a5b1d08f2391)
 
 Above is a simplified visual representation of how the the Algorithm works, relying on simple principles. The pseudorandomness is created by passing the seed the user chooses to a `Random` object which then outputs the sequence of random numbers which is then used to generate the World.
 
