@@ -79,6 +79,8 @@ Firstly, the World is split into five sectors. Each sector has one room drawn by
 
 The edge cases caused by these functions are rectified using `fixEdgeCases()` before finalising the 2D TETile array in `worldFrame`.
 
+Do note that more expansive Worlds can be generated just by tweaking the constants `ROOMMAX` & `ROOMMIN`, although I have not tested the stability of this yet.
+
 <br>
 <details>
 <summary><b>View some generated Worlds & their respective seeds.</b></summary>
