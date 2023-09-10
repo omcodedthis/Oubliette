@@ -1,5 +1,7 @@
 # ![Logo](https://github.com/omcodedthis/Oubliette/assets/119602009/c3dd4cdc-5d42-4548-b76f-492201f411ff) Oubliette
-Oubliette is a a 2D tile-based world exploration game, complete with its very own world exploration engine. The world exploration engine will build a world, which the user will be able to explore by walking around and interacting with objects in that world with an overhead perspective. Each world is pseudorandomly generated & is based on a unique seed which can be decided & saved by the user. The name Oubliette is french for a secret dungeon with access only through a trapdoor in its ceiling similar to the context of the game. The task is to to collect sixteen orbs and reach the gate within eighty seconds. It is currently hosted on [Itch.io,](https://itch.io/) a game hosting service.
+Oubliette is a a 2D tile-based world exploration game, complete with its very own world exploration engine. The world exploration engine will build a world, which the user will be able to explore by walking around and interacting with objects in that world with an overhead perspective. 
+
+Each world is pseudorandomly generated & is based on a unique seed which can be decided & saved by the user. The name Oubliette is french for a secret dungeon with access only through a trapdoor in its ceiling similar to the context of the game. The task is to to collect sixteen orbs and reach the gate within eighty seconds. It is currently hosted on [Itch.io,](https://itch.io/) a game hosting service.
 
 ## Demo
 https://github.com/omcodedthis/Oubliette/assets/119602009/17a36234-9d0d-470b-943c-e5965fead78e
@@ -67,7 +69,13 @@ Oubliette has the ability to save the state of the world while exploring, as wel
 
 ![wgar](https://github.com/omcodedthis/Oubliette/assets/119602009/60643e32-0044-430c-9bac-e90734d2d630)
 
-Above is a simplified visual representation of how the the Algorithm works, relying on simple principles. Firstly, the World is split into five sectors. Each sector has one room drawn by default by `drawRoom()` at a random x coordinate & a 50% chance for a second room to be drawn, where the outcome is decided by `drawSecondRoom()`. Every room's top left coordinates are added to a `RoomTracker` object. After all the possible rooms for every sector has been drawn, the rooms are connected sequentially using `drawLink()` to generate the hallways. The edge cases caused by these functions are rectified using `fixEdgeCases()` before finalising the 2D TETile array in `worldFrame`.
+Above is a simplified visual representation of how the the Algorithm works, relying on simple principles. 
+
+Firstly, the World is split into five sectors. Each sector has one room drawn by default by `drawRoom()` at a random x coordinate & a 50% chance for a second room to be drawn, where the outcome is decided by `drawSecondRoom()`. Every room's top left coordinates are added to a `RoomTracker` object. After all the possible rooms for every sector has been drawn, the rooms are connected sequentially using `drawLink()` to generate the hallways. 
+
+The edge cases caused by these functions are rectified using `fixEdgeCases()` before finalising the 2D TETile array in `worldFrame`.
+
+
 ## Credits
 
 
