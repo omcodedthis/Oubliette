@@ -83,6 +83,8 @@ The edge cases caused by these functions are rectified using `fixEdgeCases()` be
 <details>
 <summary><b>View some generated Worlds & their respective seeds.</b></summary>
 
+<br>
+
 **Seed: 43095430**
 ![w0](https://github.com/omcodedthis/Oubliette/assets/119602009/6109a971-6998-44e3-ae32-a5e997642376)
 
