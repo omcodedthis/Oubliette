@@ -138,9 +138,8 @@ public class WorldGenerator implements Serializable {
         int y = uniform(rand, ORIGIN + ROOMMAX, HEIGHT);
 
         for (int s = 1; s < 6; s++) {
-            for (int i = 0; i < 1; i++) {
-                drawRoom(x, y);
-            }
+            drawRoom(x, y);
+
             y = randomY(y);
 
             if (drawSecondRoom()) {
