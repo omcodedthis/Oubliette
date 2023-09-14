@@ -1,7 +1,7 @@
 # ![Logo](https://github.com/omcodedthis/Oubliette/assets/119602009/c3dd4cdc-5d42-4548-b76f-492201f411ff) Oubliette
 Oubliette is a 2D tile-based world exploration game, complete with its very own world exploration engine made from scratch. The world exploration engine will build a world, which the user will be able to explore by walking around and interacting with objects in that world with an overhead perspective. This project has been adapted from my final project for [CS61B.](https://github.com/omcodedthis/CS61B-Scores)
 
-Each world is pseudorandomly generated & is based on a unique seed which can be decided & saved by the user. It should be able to handle any positive seed up to 9,223,372,036,854,775,807. There is no defined behavior for seeds larger than this. 
+Each world is pseudorandomly generated using a unique seed which can be decided & saved by the user. It should be able to handle any positive seed up to 9,223,372,036,854,775,807. There is no defined behavior for seeds larger than this. 
 
 The name Oubliette comes from French & is defined as a secret dungeon with access only through a trapdoor in its ceiling, similar to the context of the game. The task is to to collect sixteen orbs and reach the gate within eighty seconds. It is currently hosted on [Itch.io,](https://itch.io/) a game hosting service.
 
