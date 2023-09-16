@@ -64,7 +64,7 @@ The HUD provides additional information that is useful to the user. This is spli
 
 ![savescreen](https://github.com/omcodedthis/Oubliette/assets/119602009/dfddb3ee-a502-469a-8c1f-5e3134102b58)
 
-Oubliette has the ability to save the state of the world while exploring, as well as to subsequently load the world into the exact state it was in when last saved. When the user restarts Oubliette and presses L, the world loaded is exactly the same state as it was before the world was terminated. The command “:Q” saves the data to world_save and completely terminates the program. The user is shown a "successful save" screen upon saving.
+Oubliette has the ability to save the state of the world while exploring, as well as to subsequently load the world into the exact state it was in when last saved. When the user restarts Oubliette and presses L, the world loaded is exactly the same state as it was before the world was terminated. The command “:Q” saves the data to world_save.txt which is created in the current working directory and completely terminates the program. The user is shown a "successful save" screen upon saving.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </details>
