@@ -10,7 +10,7 @@ https://github.com/omcodedthis/Oubliette/assets/119602009/96fefde3-72dd-43a1-a0b
 
 
 ## Interactivity in Oubliette
-This section explains the interactivity aspects of Oubliette in greater detail. The reasoning & the purposes of the classes created are explained in the files itself.
+This section explains the interactivity aspects of Oubliette in greater detail. The reasoning & the purposes of the members of every class are explained in the files itself.
 
 <details>
 <summary>View more information on the Title Screen.</summary>
