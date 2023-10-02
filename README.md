@@ -73,7 +73,7 @@ Oubliette has the ability to save the state of the world while exploring, as wel
 
 ![wgar](https://github.com/omcodedthis/Oubliette/assets/119602009/8b163d97-5217-4fff-8f55-a5b1d08f2391)
 
-Above is a simplified visual representation of how the the Algorithm works, relying on simple principles. The pseudorandomness is created by passing the seed the user chooses to a `Random` object which outputs the sequence of random numbers which is then used to generate the World.
+Above is a visual representation of how the the Algorithm works, relying on a simple set principles. The pseudorandomness is created by passing the seed the user chooses to a `Random` object which outputs the sequence of random numbers which is then used to generate the World.
 
 Firstly, the World is split into five sectors. Each sector has one room drawn by default by `drawRoom()` at a random x-coordinate & a 50% chance for a second room to be drawn, decided by `drawSecondRoom()`. Every room's top left coordinates are added to `rooms`,  a `RoomTracker` object. After all the possible rooms for every sector has been drawn, the rooms are connected sequentially using `drawLink()` to generate the hallways. 
 
